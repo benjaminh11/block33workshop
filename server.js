@@ -49,11 +49,12 @@ app.put("/api/employees/:id", async (req, res, next) => {
   try {
     console.log(req.body);
     console.log(req.params);
-    const SQL = `UPDATE employees SET name=$1 text=$2, ranking=$3, updated_at=now() WHERE id=$4 RETURNING *;`;
+    const SQL = `UPDATE employees SET name=$1, text=$2, ranking=$3, department_id=$4 updated_at=now() WHERE id=$5 RETURNING *;`;
     const { rows } = await client.query(SQL, [
       req.body.name,
       req.body.text,
       req.body.ranking,
+      req.body.department_id,
       req.params.id,
     ]);
     res.send({ message: "successfully updated", result: rows[0] });
